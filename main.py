@@ -49,33 +49,40 @@ VehicleLabel.pack()
 VehicleEntry = Entry(root,textvariable = IntVar, font=('calibre',10,'normal'))
 VehicleEntry.pack()
 
-#carbon = 0
+carbon = 0
 
 
 def vehicle():
     a = VehicleEntry.get()
     a = int(a)
     print (a)
-    carbon = []
-    
-    for i in range(a):
+    global carbon
+    i=0
+    while i<a:
 
         
         Label(root, text = 'How much distance is covered on an average per day on this vehicle?', font=('calibre',10, 'bold')).pack()
-        d = Entry(root, textvariable=IntVar, font=('calibre',10,'normal')).pack()
+        d = Entry(root, textvariable=IntVar, font=('calibre',10,'normal'))
+        d.pack()
         
         Label(root, text = 'What is the mileage of this vehicle?', font=('calibre',10, 'bold')).pack()
-        m = Entry(root, textvariable=IntVar, font=('calibre',10,'normal')).pack()
+        m = Entry(root, textvariable=IntVar, font=('calibre',10,'normal'))
+        m.pack()
         
         Label(root, text = 'Petrol or deisel(p/d)', font=('calibre',10, 'bold')).pack()
-        p = Entry(root, textvariable=IntVar, font=('calibre',10,'normal')).pack()
+        p = Entry(root, textvariable=IntVar, font=('calibre',10,'normal'))
+        p.pack()
     
         def TakeInput():
-            carbon.append(vehicleCalc(int(d.get()),int(m.get()),int(familyMembersEntry.get()),p.get()))
+            global carbon
+            
+            carbon+=vehicleCalc(int(d.get()),int(m.get()),int(familyMembersEntry.get()),p.get())
+            
         
         Button(root, text = "Enter for next vehicle",command = TakeInput).pack()
-        
-        root.grid(row=i+1, column=0)
+        root.grid(row=i+1 )
+        i+=1
+    Label(root, text = 'carbon value for vehicles '+str(carbon) , font=('calibre',10, 'bold')).pack()    
              
         
         
