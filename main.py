@@ -3,7 +3,6 @@ def electricCalc(amused,nf):
     return((amused*0.95)/nf)
 
 def vehicleCalc(distance,mil,nf,type):
-    print(nf,mil)
     if type.lower()=="p":
         return(((distance/mil)*2.392)/nf)
     else:
@@ -13,7 +12,7 @@ def flightCalc(inthours,dmhours):
     total = 0
     total+=((dmhours*90)/75)
     total+=((inthours*90)/416)
-    return(total)
+    return(total/365)
 
 def iceCalc(carbon):
     return(carbon*650)
@@ -21,80 +20,71 @@ def iceCalc(carbon):
 ################################################################################################################################################################################################
 
 from tkinter import *
-from tkinter import ttk 
+from tkinter.ttk import *
 
 root = Tk()
 root.title("Name of our prototype")
 root.geometry("700x800")
 
-nameLabel = Label(root, text = 'What is your name?', font=('calibre',10, 'bold'))
-nameLabel.pack()
+Label(root, text = 'What is your name?', font=('calibre',10, 'bold')).pack()
 nameEntry = Entry(root,textvariable = StringVar, font=('calibre',10,'normal'))
 nameEntry.pack()
 
-familyMembersLabel = Label(root, text = 'How many members are there in your family?', font=('calibre',10, 'bold'))
-familyMembersLabel.pack()
+Label(root, text = 'How many members are there in your family?', font=('calibre',10, 'bold')).pack()
 familyMembersEntry = Entry(root,textvariable = StringVar, font=('calibre',10,'normal')) 
 familyMembersEntry.pack()
 
 
-ElectricityLabel = Label(root, text = 'What is the amount of electical energy spent on an average each day? (in KiloWatt hour)', font=('calibre',10, 'bold'))
-ElectricityLabel.pack()
+Label(root, text = 'What is the amount of electical energy spent on an average each day? (in KiloWatt hour)', font=('calibre',10, 'bold')).pack()
 ElectricityEntry = Entry(root,textvariable = IntVar, font=('calibre',10,'normal'))
 ElectricityEntry.pack()
 
 
-VehicleLabel = Label(root, text = 'Number of vehicles you own?', font=('calibre',10, 'bold'))
-VehicleLabel.pack()
-VehicleEntry = Entry(root,textvariable = IntVar, font=('calibre',10,'normal'))
-VehicleEntry.pack()
 
+Label(root, text = 'Averge distance covered by your vehicle per day?(Kilometres)', font=('calibre',10, 'bold')).pack()
+vehicleDistance = Entry(root,textvariable = IntVar, font=('calibre',10,'normal'))
+vehicleDistance.pack()
+
+Label(root, text = 'Your mileage', font=('calibre',10, 'bold')).pack()
+mileage = Entry(root,textvariable = IntVar, font=('calibre',10,'normal'))
+mileage.pack()
+
+Label(root, text = 'Enter \'p\' for petrol vehicle and \'d\' for deisel', font=('calibre',10, 'bold')).pack()
+pd = Entry(root,textvariable = StringVar, font=('calibre',10,'normal'))
+pd.pack()
+
+
+Label(root, text = 'Enter total hours of Domestic flights last year' , font=('calibre',10, 'bold')).pack()
+DHours = Entry(root, textvariable=IntVar,font=('calibre',10,'normal'))
+DHours.pack()
+
+
+Label(root, text = 'Enter total hours of International flights last year' , font=('calibre',10, 'bold')).pack()
+IHours = Entry(root, textvariable=IntVar,font=('calibre',10,'normal'))
+IHours.pack()
+
+#####################################################################################################################
 carbon = 0
-
-
-def vehicle():
-    a = VehicleEntry.get()
-    a = int(a)
-    print (a)
+def CalculateCarbonFootprint():
     global carbon
-    i=0
-    while i<a:
+    electricity = ElectricityEntry.get()
+    electricity = int(electricity)
+    famMem = familyMembersEntry.get()
+    famMem = int(famMem)
+    domestic = DHours.get()
+    domestic = int(domestic)
+    international = IHours.get()
+    international = int(international)
+    dist = vehicleDistance.get()
+    dist = int(dist)
+    mil = mileage.get()
+    mil= int(mil)
+    p_d = pd.get()
+    carbon = electricCalc(electricity,famMem)+flightCalc(domestic,international)+vehicleCalc(dist,mil,famMem,p_d)
+    ans.configure(text = "Your carbon footprint is: "+str(carbon))
 
-        
-        Label(root, text = 'How much distance is covered on an average per day on this vehicle?', font=('calibre',10, 'bold')).pack()
-        d = Entry(root, textvariable=IntVar, font=('calibre',10,'normal'))
-        d.pack()
-        
-        Label(root, text = 'What is the mileage of this vehicle?', font=('calibre',10, 'bold')).pack()
-        m = Entry(root, textvariable=IntVar, font=('calibre',10,'normal'))
-        m.pack()
-        
-        Label(root, text = 'Petrol or deisel(p/d)', font=('calibre',10, 'bold')).pack()
-        p = Entry(root, textvariable=IntVar, font=('calibre',10,'normal'))
-        p.pack()
-    
-        def TakeInput():
-            global carbon
-            
-            carbon+=vehicleCalc(int(d.get()),int(m.get()),int(familyMembersEntry.get()),p.get())
-            
-        
-        Button(root, text = "Enter for next vehicle",command = TakeInput).pack()
-        root.grid(row=i+1 )
-        i+=1
-    Label(root, text = 'carbon value for vehicles '+str(carbon) , font=('calibre',10, 'bold')).pack()    
-             
-        
-        
-
-ibutton = Button(root, text="Enter details for vehicles", command = vehicle).pack()
-variables = []
-
-def calc(a,b,c,f):
-    return (a/b)*2.3 /f
-
-
-
-
+Button(root, text="I entered all details ", command = CalculateCarbonFootprint).pack()
+ans = Label(root,text = "The carbon emmission")
+ans.pack()
 
 root.mainloop()
