@@ -65,19 +65,12 @@ IHours.pack()
 #####################################################################################################################
 carbon = 0
 def CalculateCarbonFootprint():
-    # global carbon
     electricity = int(ElectricityEntry.get())
-    # electricity = int(electricity)
     famMem = int(familyMembersEntry.get())
-    # famMem = int(famMem)
     domestic = int(DHours.get())
-    # domestic = int(domestic)
     international = int(IHours.get())
-    # international = int(international)
     dist = int(vehicleDistance.get())
-    # dist = int(dist)
     mil = int(mileage.get())
-    # mil= int(mil)
     fType = fuelType.get()
     carbon = electricCalc(electricity, famMem) + flightCalc(international, domestic) + vehicleCalc(dist, mil, famMem, fType)
     ans.configure(text = "Your carbon footprint is: " + str(carbon))
