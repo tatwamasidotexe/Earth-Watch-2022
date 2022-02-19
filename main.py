@@ -78,7 +78,7 @@ def CalculateCarbonFootprint():
     # dist = int(dist)
     mil = int(mileage.get())
     # mil= int(mil)
-    fType = pd.get()
+    fType = fuelType.get()
     carbon = electricCalc(electricity, famMem) + flightCalc(international, domestic) + vehicleCalc(dist, mil, famMem, fType)
     ans.configure(text = "Your carbon footprint is: " + str(carbon))
 
