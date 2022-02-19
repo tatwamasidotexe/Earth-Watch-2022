@@ -20,6 +20,9 @@ def iceCalc(carbon):
 
 from tkinter import *
 from tkinter.ttk import *
+from PIL import ImageTk,Image  
+# 'pip install Pillow' for PIL
+
 
 root = Tk()
 root.title("Name of our prototype")
@@ -38,24 +41,11 @@ Label(root, text = 'What is the amount of electical energy spent on an average e
 ElectricityEntry = Entry(root,textvariable = IntVar, font=('calibre',10,'normal'))
 ElectricityEntry.pack()
 
-Label(root, text = 'Number of vehicles you own?', font=('calibre',10, 'bold')).pack()
-noOfVehicles = Entry(root,textvariable = IntVar, font=('calibre',10,'normal'))
-noOfVehicles.pack()
 
-# map to store details for each vehicle
-vehicleDeets = {
-    'distanceTravelled' : []
-}
 
-vNumber = getint(noOfVehicles.get()) # ValueError: invalid literal for int() with base 10: ''
-
-# loop to get distance travelled by each of the n vehicles owned by the user
-# checking the loop for only one vehicle detail for now
-for i in range(1, vNumber+1) :
-    Label(root, text = 'Average distance covered by vehicle ' + i + ' per day?(Kilometres)', font=('calibre',10, 'bold')).pack()
-    vehicleDistance = Entry(root,textvariable = IntVar, font=('calibre',10,'normal'))
-    vehicleDistance.pack()
-    vehicleDeets['distanceTravelled'].append(int(vehicleDistance))
+Label(root, text = 'Averge distance covered by your vehicle per day?(Kilometres)', font=('calibre',10, 'bold')).pack()
+vehicleDistance = Entry(root,textvariable = IntVar, font=('calibre',10,'normal'))
+vehicleDistance.pack()
 
 Label(root, text = 'Your mileage', font=('calibre',10, 'bold')).pack()
 mileage = Entry(root,textvariable = IntVar, font=('calibre',10,'normal'))
@@ -82,20 +72,23 @@ def CalculateCarbonFootprint():
     famMem = int(familyMembersEntry.get())
     domestic = int(DHours.get())
     international = int(IHours.get())
-<<<<<<< HEAD
-    # international = int(international)
-    # dist = int(vehicleDistance.get())
-    # dist = int(dist)
-=======
     dist = int(vehicleDistance.get())
->>>>>>> 1c6a34c0c70089c5a71b30525d3f28bcee35e7bb
     mil = int(mileage.get())
     fType = fuelType.get()
-    carbon = electricCalc(electricity, famMem) + flightCalc(international, domestic) + vehicleCalc(0, mil, famMem, fType)
+    carbon = electricCalc(electricity, famMem) + flightCalc(international, domestic) + vehicleCalc(dist, mil, famMem, fType)
     ans.configure(text = "Your carbon footprint is: " + str(carbon))
+    displayTurtles(carbon)
 
 Button(root, text = "I entered all details ", command = CalculateCarbonFootprint).pack()
 ans = Label(root, text = "The carbon emmission")
 ans.pack()
+
+canvas = Canvas(root, width=300, height=400)
+canvas.pack(side='bottom')
+img = ImageTk.PhotoImage(Image.open("happyT.jpeg"))
+
+def displayTurtles(carbonVal) :
+    if carbonVal < 10 :
+        canvas.create_image(10,10, anchor=NW, image=img)
 
 root.mainloop()
