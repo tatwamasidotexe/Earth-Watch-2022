@@ -7,3 +7,4 @@ We are building a Python-based GUI to calculate your carbon footprint and how it
 1. Given that your system has Python 3 installed, go to cmd and type *pip install Pillow*
 2. After the installation, in the command prompt, cd to the directory where the application is stored.
 3. Then type *python main.py* to run the application.
+4. Larger monitor advised for best results. (would make it compatible with every screen in later upgrades)
